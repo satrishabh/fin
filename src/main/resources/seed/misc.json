@@ -1,0 +1,44 @@
+{
+  "counters": [
+    {"exporter":"Bank (China) Co Ltd [SIM]","year":2026,"nonsensitive":72000,"sensitive":3500,"reconciledExact":true,"lastReconciled":"2026-10-01T00:00:00Z"}
+  ],
+  "legalHolds": [
+    {"id":"LH-001","assetId":"asset:eu:wealth:client-profiles","reason":"Litigation hold - synthetic matter M-2026-14","until":"2027-06-30"}
+  ],
+  "controls": [
+    {"id":"CT-001","cell":"EU","cloud":"aws","control":"Encryption at rest with in-region KMS key","family":"Data residency and cross-border transfer","resource":"asset:eu:payments:sepa-txn","status":"passed","detail":"kms key arn:aws:kms:eu-central-1:...:key/**** (in-region)"},
+    {"id":"CT-002","cell":"EU","cloud":"aws","control":"Encryption at rest with in-region KMS key","family":"Data residency and cross-border transfer","resource":"asset:eu:payments:card-disputes-analytics","status":"failed","detail":"bucket uses default key in us-east-1"},
+    {"id":"CT-003","cell":"EU","cloud":"azure","control":"Encryption at rest with in-region key vault","family":"Data residency and cross-border transfer","resource":"asset:eu:wealth:client-profiles","status":"passed","detail":"key vault westeurope"},
+    {"id":"CT-004","cell":"EU","cloud":"aws","control":"Access logging enabled","family":"Operational resilience and ICT incident reporting","resource":"asset:eu:markets:trade-blotter","status":"passed","detail":"CloudTrail data events on"},
+    {"id":"CT-005","cell":"EU","cloud":"aws","control":"Backup immutability (object lock)","family":"Operational resilience and ICT incident reporting","resource":"asset:eu:payments:backup-snapshots","status":"passed","detail":"compliance mode 10y"},
+    {"id":"CT-006","cell":"IN","cloud":"aws","control":"Encryption at rest with in-region KMS key","family":"Data residency and cross-border transfer","resource":"asset:in:payments:upi-txn","status":"passed","detail":"kms ap-south-1"},
+    {"id":"CT-007","cell":"IN","cloud":"aws","control":"Encryption at rest with in-region KMS key","family":"Data residency and cross-border transfer","resource":"asset:in:payments:txn-archive-2026","status":"failed","detail":"kms key in ap-southeast-1 (out of cell)"},
+    {"id":"CT-008","cell":"IN","cloud":"azure","control":"Privileged access via PIM","family":"Third-party and cloud risk","resource":"asset:in:wealth:demat-holdings","status":"passed","detail":"PIM enforced"},
+    {"id":"CT-009","cell":"SG","cloud":"aws","control":"Encryption at rest with in-region KMS key","family":"Data residency and cross-border transfer","resource":"asset:sg:payments:paynow-txn","status":"passed","detail":"kms ap-southeast-1"},
+    {"id":"CT-010","cell":"SG","cloud":"gcp","control":"Vendor bucket encryption with customer-managed key","family":"Third-party and cloud risk","resource":"asset:sg:wealth:crm-saas-export","status":"failed","detail":"vendor-managed key, location US"},
+    {"id":"CT-011","cell":"CN","cloud":"sim","control":"Encryption at rest with in-region key (simulated)","family":"Data residency and cross-border transfer","resource":"asset:cn:payments:client-kyc","status":"passed","detail":"sim hsm cn-shanghai"},
+    {"id":"CT-012","cell":"CN","cloud":"aws","control":"Encryption at rest with in-region key","family":"Data residency and cross-border transfer","resource":"asset:cn:payments:kyc-replica-hk","status":"failed","detail":"key held in ap-east-1"}
+  ],
+  "incidentRegimes": [
+    {"regime":"GDPR Art. 33","jurisdiction":"EU","authority":"Lead supervisory authority (e.g. DPC Ireland)","hours":72,"requiresPersonalData":true,"template":"tpl-gdpr-33","basis":"72h from awareness of personal data breach"},
+    {"regime":"DORA major ICT incident - initial","jurisdiction":"EU","authority":"National competent authority","hours":24,"requiresPersonalData":false,"minSeverity":"high","template":"tpl-dora-initial","basis":"4h after classification as major, no later than 24h after awareness (indicative)"},
+    {"regime":"DORA - intermediate report","jurisdiction":"EU","authority":"National competent authority","hours":96,"requiresPersonalData":false,"minSeverity":"high","template":"tpl-dora-intermediate","basis":"72h after initial notification (indicative)"},
+    {"regime":"CERT-In cyber incident","jurisdiction":"IN","authority":"CERT-In","hours":6,"requiresPersonalData":false,"template":"tpl-certin","basis":"6 hours from noticing (CERT-In Directions 2022)"},
+    {"regime":"RBI cyber incident","jurisdiction":"IN","authority":"Reserve Bank of India","hours":6,"requiresPersonalData":false,"minSeverity":"medium","template":"tpl-rbi","basis":"2-6 hours per RBI cyber framework (indicative)"},
+    {"regime":"DPDP breach - detailed report","jurisdiction":"IN","authority":"Data Protection Board of India","hours":72,"requiresPersonalData":true,"template":"tpl-dpdp","basis":"Intimation without delay; detailed report within 72h (DPDP Rules 2025)"},
+    {"regime":"MAS TRM relevant incident","jurisdiction":"SG","authority":"Monetary Authority of Singapore","hours":1,"requiresPersonalData":false,"minSeverity":"high","template":"tpl-mas-trm","basis":"1 hour from discovery (MAS Notice on TRM)"},
+    {"regime":"PDPA notifiable breach","jurisdiction":"SG","authority":"PDPC","hours":72,"requiresPersonalData":true,"template":"tpl-pdpa","basis":"3 calendar days after assessment as notifiable"},
+    {"regime":"CN cybersecurity incident (SIM)","jurisdiction":"CN","authority":"CAC / sector regulator (simulated)","hours":4,"requiresPersonalData":false,"minSeverity":"high","template":"tpl-cn-incident","basis":"Indicative per 2025 incident reporting measures - verify"}
+  ],
+  "templates": {
+    "tpl-gdpr-33": "DRAFT - NOT SENT. Personal data breach notification to {authority}. Incident {incidentId} detected {detectedAt}. Nature: {description}. Approx. data subjects: {individuals}. Assets: {assets}. Measures taken: [to be completed by DPO].",
+    "tpl-dora-initial": "DRAFT - NOT SENT. DORA initial notification of major ICT-related incident {incidentId} to {authority}. Detected {detectedAt}. Classification criteria met: [incident manager to confirm]. Affected services: {assets}.",
+    "tpl-dora-intermediate": "DRAFT - NOT SENT. DORA intermediate report for incident {incidentId}. Status update: [to be completed].",
+    "tpl-certin": "DRAFT - NOT SENT. CERT-In incident report for {incidentId}. Detected {detectedAt}. Type: {description}. Affected systems: {assets}.",
+    "tpl-rbi": "DRAFT - NOT SENT. RBI cyber incident report {incidentId}. Detected {detectedAt}. Impact: {description}.",
+    "tpl-dpdp": "DRAFT - NOT SENT. Intimation of personal data breach to the Data Protection Board for {incidentId}. Approx. data principals: {individuals}.",
+    "tpl-mas-trm": "DRAFT - NOT SENT. Notification to MAS of relevant incident {incidentId} discovered {detectedAt}. Systems: {assets}.",
+    "tpl-pdpa": "DRAFT - NOT SENT. PDPC data breach notification for {incidentId}. Approx. individuals: {individuals}.",
+    "tpl-cn-incident": "DRAFT - NOT SENT (SIMULATION). Incident report {incidentId} to {authority}."
+  }
+}

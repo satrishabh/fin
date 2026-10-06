@@ -1,0 +1,38 @@
+[
+  {"id":"TP-001","name":"Amazon Web Services EMEA SARL","lei":"SYNTH-LEI-AWS-0001","country":"LU","type":"cloud","regulatorFlags":["CTPP","material_outsourcing"],
+   "arrangements":[
+     {"id":"ARR-001","service":"IaaS/PaaS hosting - EU, IN, SG cells","ictServiceType":"S01 cloud computing (IaaS)","criticalFunction":"Payments processing","critical":true,"dataLocations":["IE","DE","IN","SG","US"],"processingLocations":["IE","DE","IN","SG"],
+      "subcontractors":[{"name":"AWS regional operating entities","country":"US","service":"datacentre operations","rank":1}],"exitPlanRef":"EXIT-AWS-2025-v2","contractId":"CTR-AWS-01",
+      "clauses":{"audit_rights":"s.12.1","subcontracting":"s.9","data_location":"s.7.2","incident_notification":"s.11.3","termination_exit":"s.15","regulator_access":"s.12.4","service_levels":"Sch.2","security":"s.8"},
+      "startDate":"2022-01-01","endDate":"2027-12-31","annualCostEur":4200000,"legalEntities":["Bank Europe SE","Bank India Ltd","Bank Singapore Pte Ltd"]}]},
+  {"id":"TP-002","name":"Microsoft Ireland Operations Ltd","lei":"SYNTH-LEI-MSFT-0002","country":"IE","type":"cloud","regulatorFlags":["CTPP","material_outsourcing"],
+   "arrangements":[
+     {"id":"ARR-002","service":"Azure hosting - secondary cloud for cells","ictServiceType":"S01 cloud computing (IaaS)","criticalFunction":"Wealth client servicing","critical":true,"dataLocations":["NL","IN","SG"],"processingLocations":["NL","IN","SG"],
+      "subcontractors":[{"name":"Microsoft Corporation","country":"US","service":"support","rank":1}],"exitPlanRef":"EXIT-AZ-2025-v1","contractId":"CTR-AZ-01",
+      "clauses":{"audit_rights":"s.10","subcontracting":"s.6","data_location":"s.5","incident_notification":"s.9.2","termination_exit":"s.14","regulator_access":"s.10.3","service_levels":"Sch.A","security":"s.7"},
+      "startDate":"2023-04-01","endDate":"2028-03-31","annualCostEur":2600000,"legalEntities":["Bank Europe SE","Bank India Ltd","Bank Singapore Pte Ltd"]}]},
+  {"id":"TP-003","name":"CloudCRM Inc (synthetic SaaS vendor)","lei":"SYNTH-LEI-CRM-0003","country":"US","type":"saas","regulatorFlags":["material_outsourcing"],
+   "arrangements":[
+     {"id":"ARR-003","service":"Wealth CRM SaaS","ictServiceType":"S03 SaaS","criticalFunction":"Wealth client servicing","critical":true,"dataLocations":["US"],"processingLocations":["US","PH"],
+      "subcontractors":[{"name":"GCP (hosting)","country":"US","service":"hosting","rank":1},{"name":"SupportCo Manila","country":"PH","service":"L1 support","rank":2}],"exitPlanRef":null,"contractId":"CTR-CRM-01",
+      "clauses":{"audit_rights":"missing","subcontracting":"s.4","data_location":"missing","incident_notification":"s.8","termination_exit":"s.12","regulator_access":"missing","service_levels":"Sch.1","security":"s.6"},
+      "startDate":"2024-07-01","endDate":"2027-06-30","annualCostEur":380000,"legalEntities":["Bank Singapore Pte Ltd","Bank Europe SE"]}]},
+  {"id":"TP-004","name":"Google (Gemini API) - model provider","lei":"SYNTH-LEI-GOOG-0004","country":"US","type":"model_provider","regulatorFlags":[],
+   "arrangements":[
+     {"id":"ARR-004","service":"Generative model API used by RCP agents (global-metadata profile)","ictServiceType":"S03 SaaS (AI model API)","criticalFunction":null,"critical":false,"dataLocations":["US"],"processingLocations":["US"],
+      "subcontractors":[],"exitPlanRef":"EXIT-LLM-2026-v1 (swap via model-gateway)","contractId":null,
+      "clauses":{"audit_rights":"missing","subcontracting":"missing","data_location":"missing","incident_notification":"missing","termination_exit":"missing","regulator_access":"missing","service_levels":"missing","security":"missing"},
+      "startDate":"2026-09-01","endDate":null,"annualCostEur":25000,"legalEntities":["Bank Europe SE"]}]},
+  {"id":"TP-005","name":"SwiftNet Messaging (synthetic)","lei":"SYNTH-LEI-SWFT-0005","country":"BE","type":"network","regulatorFlags":["material_outsourcing"],
+   "arrangements":[
+     {"id":"ARR-005","service":"Payment messaging network","ictServiceType":"S07 network/communications","criticalFunction":"Payments processing","critical":true,"dataLocations":["BE","NL","CH"],"processingLocations":["BE","NL","CH"],
+      "subcontractors":[],"exitPlanRef":"EXIT-SWIFT-2024","contractId":"CTR-SWIFT-01",
+      "clauses":{"audit_rights":"s.20","subcontracting":"s.18","data_location":"s.6","incident_notification":"s.16","termination_exit":"s.25","regulator_access":"s.20.2","service_levels":"Annex 3","security":"s.12"},
+      "startDate":"2019-01-01","endDate":"2029-12-31","annualCostEur":900000,"legalEntities":["Bank Europe SE","Bank Singapore Pte Ltd"]}]},
+  {"id":"TP-006","name":"MarketFeed Data Ltd (synthetic)","lei":"SYNTH-LEI-MKTF-0006","country":"GB","type":"data","regulatorFlags":[],
+   "arrangements":[
+     {"id":"ARR-006","service":"Reference & market data feed","ictServiceType":"S09 data provision","criticalFunction":"Trade reporting","critical":true,"dataLocations":["GB"],"processingLocations":["GB"],
+      "subcontractors":[{"name":"Exchange data vendors","country":"US","service":"data","rank":1}],"exitPlanRef":null,"contractId":"CTR-MKTF-01",
+      "clauses":{"audit_rights":"s.14","subcontracting":"missing","data_location":"s.3","incident_notification":"s.11","termination_exit":"s.17","regulator_access":"missing","service_levels":"Sch.B","security":"s.9"},
+      "startDate":"2021-05-01","endDate":"2026-12-31","annualCostEur":610000,"legalEntities":["Bank Europe SE","Bank India Ltd"]}]}
+]

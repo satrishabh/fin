@@ -1,0 +1,13 @@
+[
+  {"from":"asset:eu:payments:sepa-txn","to":"asset:eu:payments:card-disputes-analytics","job":"analytics-export (daily)"},
+  {"from":"asset:eu:payments:sepa-txn","to":"asset:eu:payments:backup-snapshots","job":"cross-region-dr (hourly)"},
+  {"from":"asset:eu:markets:trade-blotter","to":"asset:eu:markets:mifir-reports","job":"mifir-gen (T+1)"},
+  {"from":"asset:eu:wealth:client-profiles","to":"asset:eu:wealth:kyc-docs","job":"kyc-onboarding"},
+  {"from":"asset:eu:payments:sepa-txn","to":"asset:eu:payments:unlabelled-export","job":"ad-hoc query (user)"},
+  {"from":"asset:in:payments:upi-txn","to":"asset:in:payments:txn-archive-2026","job":"replication-rule archive-to-apse1"},
+  {"from":"asset:in:payments:upi-txn","to":"asset:in:payments:fraud-features","job":"group-fraud-features (hourly)"},
+  {"from":"asset:in:payments:upi-txn","to":"asset:in:payments:merchant-onboarding","job":"merchant-extract"},
+  {"from":"asset:sg:wealth:client-master","to":"asset:sg:wealth:crm-saas-export","job":"vendor nightly export"},
+  {"from":"asset:cn:payments:client-kyc","to":"asset:cn:payments:kyc-replica-hk","job":"dr-hk replication"},
+  {"from":"asset:cn:payments:client-kyc","to":"asset:cn:wealth:client-txn-summary","job":"summary-build"}
+]

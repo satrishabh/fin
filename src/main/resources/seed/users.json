@@ -1,0 +1,10 @@
+[
+  {"id":"analyst.k.rao","name":"K. Rao (Compliance analyst)","roles":["analyst"]},
+  {"id":"dpo.m.lee","name":"M. Lee (DPO / Privacy legal)","roles":["dpo","legal","privacy"]},
+  {"id":"owner.s.iyer","name":"S. Iyer (Data owner)","roles":["data_owner","business_owner"]},
+  {"id":"compliance.a.tan","name":"A. Tan (Compliance owner)","roles":["compliance"]},
+  {"id":"policy.eng.j.ng","name":"J. Ng (Policy engineer)","roles":["policy_engineer"]},
+  {"id":"vendor.risk.p.das","name":"P. Das (Vendor-risk owner)","roles":["vendor_risk"]},
+  {"id":"incident.mgr.l.chen","name":"L. Chen (Incident manager)","roles":["incident_manager"]},
+  {"id":"legal.r.mendes","name":"R. Mendes (Legal counsel)","roles":["legal"]}
+]

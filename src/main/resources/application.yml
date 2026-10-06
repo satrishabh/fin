@@ -1,0 +1,47 @@
+server:
+  port: ${PORT:8080}
+  compression:
+    enabled: true
+
+spring:
+  application:
+    name: rcp-platform
+  threads:
+    virtual:
+      enabled: true
+
+rcp:
+  data:
+    # Folder with original-data JSON files (same names/shapes as src/main/resources/seed). Empty = synthetic seed.
+    dir: ${RCP_DATA_DIR:}
+    # true while running on synthetic data: cell profiles may send masked samples to the model.
+    # Set false for original data: cell agents then send metadata only unless the cell has an approved regional endpoint.
+    synthetic: ${RCP_DATA_SYNTHETIC:true}
+  llm:
+    # langchain4j | springai | mock  (falls back to mock when no key is set)
+    provider: ${RCP_LLM_PROVIDER:langchain4j}
+    approved-cell-endpoints: ${RCP_APPROVED_CELL_ENDPOINTS:CN}
+    gemini:
+      api-key: ${GEMINI_API_KEY:${GOOGLE_API_KEY:}}
+      model: ${GEMINI_MODEL:gemini-2.5-flash}
+  tracing:
+    capture-content: ${RCP_TRACE_CAPTURE_CONTENT:false}
+    langfuse:
+      public-key: ${LANGFUSE_PUBLIC_KEY:}
+      secret-key: ${LANGFUSE_SECRET_KEY:}
+      host: ${LANGFUSE_HOST:https://cloud.langfuse.com}
+    langsmith:
+      api-key: ${LANGSMITH_API_KEY:}
+      project: ${LANGSMITH_PROJECT:rcp-poc}
+      endpoint: ${LANGSMITH_ENDPOINT:https://api.smith.langchain.com/otel/v1/traces}
+  policy:
+    signing-key: ${RCP_POLICY_SIGNING_KEY:rcp-poc-bundle-signing-key-change-me}
+  a2a:
+    signing-key: ${RCP_A2A_SIGNING_KEY:rcp-poc-a2a-card-key-change-me}
+    base-url: ${RCP_BASE_URL:http://localhost:8080}
+
+logging:
+  level:
+    root: INFO
+    com.bank.rcp: INFO
+    io.opentelemetry: WARN

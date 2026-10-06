@@ -1,0 +1,102 @@
+﻿{
+  "_note": "SYNTHETIC POC DATA. Thresholds, deadlines and region lists are indicative (researched Oct 2026) and MUST be confirmed by counsel before enforce mode.",
+  "data": {
+    "common": {
+      "eea_countries": ["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO"],
+      "min_cell_size": 10,
+      "federated_row_cap": 500,
+      "non_personal_classes": ["public","internal","aggregate","derived_scores","synthetic","trade_aggregate"],
+      "regulated_classes": ["personal","sensitive_personal","payment","trade","health","important_data_candidate"],
+      "regions": {
+        "aws:eu-west-1":        {"country":"IE","jurisdiction":"EU","cloud":"aws"},
+        "aws:eu-central-1":     {"country":"DE","jurisdiction":"EU","cloud":"aws"},
+        "azure:westeurope":     {"country":"NL","jurisdiction":"EU","cloud":"azure"},
+        "azure:francecentral":  {"country":"FR","jurisdiction":"EU","cloud":"azure"},
+        "aws:us-east-1":        {"country":"US","jurisdiction":"US","cloud":"aws"},
+        "aws:us-west-2":        {"country":"US","jurisdiction":"US","cloud":"aws"},
+        "gcp:us-central1":      {"country":"US","jurisdiction":"US","cloud":"gcp"},
+        "aws:ap-south-1":       {"country":"IN","jurisdiction":"IN","cloud":"aws"},
+        "aws:ap-south-2":       {"country":"IN","jurisdiction":"IN","cloud":"aws"},
+        "azure:centralindia":   {"country":"IN","jurisdiction":"IN","cloud":"azure"},
+        "azure:southindia":     {"country":"IN","jurisdiction":"IN","cloud":"azure"},
+        "aws:ap-southeast-1":   {"country":"SG","jurisdiction":"SG","cloud":"aws"},
+        "azure:southeastasia":  {"country":"SG","jurisdiction":"SG","cloud":"azure"},
+        "aws:ap-east-1":        {"country":"HK","jurisdiction":"HK","cloud":"aws"},
+        "sim:cn-shanghai":      {"country":"CN","jurisdiction":"CN","cloud":"sim"},
+        "sim:cn-beijing":       {"country":"CN","jurisdiction":"CN","cloud":"sim"}
+      },
+      "home_jurisdiction_of_cell": {"EU":"EU","IN":"IN","SG":"SG","CN":"CN"},
+      "home_country_of_cell": {"EU":"IE","IN":"IN","SG":"SG","CN":"CN"}
+    },
+    "eu": {
+      "adequacy_countries": ["CH","GB","JP","KR","IL","NZ","CA","UY","AR","AD","FO","GG","IM","JE"],
+      "transfer_tools": ["SCC","IGA","BCR","adequacy"]
+    },
+    "in": {
+      "payment_storage_allowed": ["aws:ap-south-1","aws:ap-south-2","azure:centralindia","azure:southindia"],
+      "dpdp_restricted_countries": [],
+      "foreign_processing_return_hours": 24
+    },
+    "sg": {
+      "outsourcing_mechanism_types": ["MAS-outsourcing-assessment"],
+      "transfer_mechanism_types": ["IGA","SCC","BCR"]
+    },
+    "cn": {
+      "mainland_regions": ["sim:cn-shanghai","sim:cn-beijing"],
+      "thresholds": {
+        "exempt_nonsensitive_below": 100000,
+        "assessment_nonsensitive": 1000000,
+        "assessment_sensitive": 10000,
+        "warn_ratios": [0.8, 0.95]
+      },
+      "ciio_exporters": []
+    },
+    "retention": {
+      "minimum_years": {"BR-6Y": 6, "EV-7Y": 7, "TRADE-7Y": 7, "PAY-10Y": 10, "OPS-1Y": 1, "PD-MIN": 0}
+    }
+  },
+  "packs": [
+    {
+      "id": "eu", "jurisdiction": "EU", "version": "eu-2026.10.1", "mode": "audit",
+      "rules": [
+        {"ruleId":"EU-GDPR-TRF-001","pkg":"residency","description":"EU personal/payment data hosted outside the EEA requires adequacy or a valid transfer tool (SCC/IGA/BCR) covering destination, purpose and data class","requirementRef":"REQ-EU-GDPR-CH5","sourceRef":"GDPR Arts. 44-49"},
+        {"ruleId":"EU-GDPR-TRF-002","mode":"enforce","pkg":"transfer","description":"Transfers of EU personal data to third countries require adequacy or an appropriate safeguard in force","requirementRef":"REQ-EU-GDPR-CH5","sourceRef":"GDPR Arts. 45-46"}
+      ]
+    },
+    {
+      "id": "in", "jurisdiction": "IN", "version": "in-2026.10.2", "mode": "audit",
+      "rules": [
+        {"ruleId":"IN-RBI-PAYDATA-001","pkg":"residency","description":"Indian payment system data must be stored only in India","requirementRef":"REQ-IN-RBI-PSD","sourceRef":"RBI circular on Storage of Payment System Data (2018) + FAQs",
+         "rego":"violation contains msg if {\n\tinput.asset.tags.dataClass == \"payment\"\n\tinput.asset.tags.originJurisdiction == \"IN\"\n\tnot input.asset.location in data.in.payment_storage_allowed\n\tmsg := sprintf(\"IN-RBI-PAYDATA-001: Indian payment data stored in %s; must be stored in India\", [input.asset.location])\n}"},
+        {"ruleId":"IN-RBI-PAYDATA-002","pkg":"residency","description":"Copies of Indian payment data processed abroad must carry a return-to-India deadline","requirementRef":"REQ-IN-RBI-PSD","sourceRef":"RBI Storage of Payment System Data FAQs (processing abroad)"},
+        {"ruleId":"IN-RBI-PAYDATA-003","mode":"enforce","pkg":"transfer","description":"Raw Indian payment data may not be exported except for foreign processing with a return deadline","requirementRef":"REQ-IN-RBI-PSD","sourceRef":"RBI Storage of Payment System Data FAQs"},
+        {"ruleId":"IN-DPDP-TRF-001","mode":"enforce","pkg":"transfer","description":"Personal data may be transferred abroad unless the destination is restricted by Central Government notification","requirementRef":"REQ-IN-DPDP-16","sourceRef":"DPDP Act 2023 s.16; DPDP Rules 2025"}
+      ]
+    },
+    {
+      "id": "sg", "jurisdiction": "SG", "version": "sg-2026.09.1", "mode": "audit",
+      "rules": [
+        {"ruleId":"SG-MAS-OUT-001","pkg":"residency","description":"Singapore customer information hosted outside Singapore requires a documented MAS outsourcing / cloud risk assessment covering the location","requirementRef":"REQ-SG-MAS-OUTS","sourceRef":"MAS Guidelines on Outsourcing; MAS TRM Guidelines"},
+        {"ruleId":"SG-PDPA-TRF-001","mode":"enforce","pkg":"transfer","description":"Personal data transferred out of Singapore requires comparable protection (contract / BCR / IGA)","requirementRef":"REQ-SG-PDPA-26","sourceRef":"PDPA s.26; PDP Regulations Part 3"}
+      ]
+    },
+    {
+      "id": "cn", "jurisdiction": "CN", "version": "cn-sim-2026.10.1", "mode": "enforce",
+      "rules": [
+        {"ruleId":"CN-PIPL-LOC-001","pkg":"residency","description":"Important data and sensitive personal information of the (simulated) China entity must be stored in mainland China","requirementRef":"REQ-CN-DSL-IMPDATA","sourceRef":"DSL Art. 31; PIPL Art. 40; Network Data Security Management Regulations"},
+        {"ruleId":"CN-PIPL-TRF-001","pkg":"transfer","description":"Outbound personal information requires the route determined by volume/sensitivity/important-data (exemption, standard contract/certification, or CAC security assessment)","requirementRef":"REQ-CN-PIPL-38","sourceRef":"PIPL Art. 38; Provisions on Promoting and Regulating Cross-Border Data Flows (Mar 2024); Certification Measures (eff. 1 Jan 2026)",
+         "rego":"required_route := \"cac_security_assessment\" if { input.transfer.contains_important_data } else := ..."},
+        {"ruleId":"CN-DSL-36-001","pkg":"disclosure","description":"Data stored in China may not be provided to foreign judicial or law-enforcement authorities without approval of the competent Chinese authority","requirementRef":"REQ-CN-DSL-36","sourceRef":"DSL Art. 36; PIPL Art. 41"}
+      ]
+    },
+    {
+      "id": "common", "jurisdiction": "GLOBAL", "version": "common-2026.10.0", "mode": "audit",
+      "rules": [
+        {"ruleId":"COMMON-UNK-001","pkg":"residency","description":"Unclassified assets are treated as restricted (unknown = restricted) and must remain in their home cell","requirementRef":"REQ-GLB-CLASS","sourceRef":"Internal data classification standard","severity":"medium"},
+        {"ruleId":"COMMON-TRF-000","mode":"enforce","pkg":"transfer","description":"Transfers containing no personal or regulated data (after approved transform) are permitted","requirementRef":"REQ-GLB-MIN","sourceRef":"Internal data minimisation standard","severity":"low"},
+        {"ruleId":"COMMON-TRF-001","mode":"enforce","pkg":"transfer","description":"Aggregate exports must meet minimum cell size (k-anonymity threshold)","requirementRef":"REQ-GLB-MIN","sourceRef":"Internal data minimisation standard"},
+        {"ruleId":"COMMON-RET-001","pkg":"retention","description":"Erasure is deferred while a legal hold or statutory retention period applies","requirementRef":"REQ-GLB-RET","sourceRef":"GDPR Art. 17(3)(b); SEC 17a-4; local record-keeping rules"}
+      ]
+    }
+  ]
+}
